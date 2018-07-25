@@ -93,22 +93,22 @@ https://jsbin.com/foqiyalaba/1/edit?html,js
  
 # React-router 核心组件 
 
-## Router
-	•	Router是一个外层，最后render的是它的子组件，不渲染具体业务组件。
-	•	分为HashRouter(通过改变hash)、BrowserRouter(通过改变url)
-	•	Router负责选取哪种方式作为单页应用的方案hash或browser或其他的。
-	•	？Router的props中有一个history的对象，history是对window.history的封装，history的负责管理与浏览器历史记录的交互和哪种方式的单页应用。history会作为childContext里的一个属性传下去。
-## Route
-	•	负责渲染具体的业务组件，负责匹配url和对应的组件
-	•	有三种渲染的组件的方式：component(对应的组件)、render(是一个函数，函数里渲染组件)、children(无论哪种路由都会渲染)
+### Router
+ * Router是一个外层，最后render的是它的子组件，不渲染具体业务组件。
+ * 分为HashRouter(通过改变hash)、BrowserRouter(通过改变url)
+ * Router负责选取哪种方式作为单页应用的方案hash或browser或其他的。
+ * Router的props中有一个history的对象，history是对window.history的封装，history的负责管理与浏览器历史记录的交互和哪种方式的单页应用。history会作为childContext里的一个属性传下去。
+### Route
+ * 负责渲染具体的业务组件，负责匹配url和对应的组件
+ * 有三种渲染的组件的方式：component(对应的组件)、render(是一个函数，函数里渲染组件)、children(无论哪种路由都会渲染)
 
-## Switch
-	•	匹配到一个Route子组件就返回不再继续匹配其他组件。
-## Link
-	•	跳转路由时的组件，调用history.push把改变url。
+### Switch
+ * 匹配到一个Route子组件就返回不再继续匹配其他组件。
+### Link
+ * 跳转路由时的组件，调用history.push把改变url。
 
-## Redirect
-	•	 重定向就是匹配不到后直接跳转到redirect中的to路径
+### Redirect
+ * 重定向就是匹配不到后直接跳转到redirect中的to路径
 
 
 具体代码可以看demo2。
