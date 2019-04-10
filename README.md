@@ -1,4 +1,4 @@
-这次的分享，主要涉及3块内容，一是Context API，二是h5 的 History API 三是利益上面的知识手写一段react-router。
+这次的分享，主要涉及3块内容，一是Context API，二是h5 的 History API 三是利用上面的知识手写一段react-router。
 
 # Context API
 
