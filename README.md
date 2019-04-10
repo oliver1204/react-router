@@ -5,7 +5,7 @@
 ## Redux Context API 的问题
 我们都知道在 React 中父子组件可以通过 props 自顶向下的传递数据。但是当组件深度嵌套时，从顶层组件向最内层组件传递数据就不那么方便了。手动在每一层组件上逐级传递 prop 不仅书写起来很繁琐同时还会为夹在中间的组件引入不必要的 prop。为了避免这种繁琐的方式，很多同学就想到了redux。
 
-用过redux + redux的同学，应该会觉得新的Context API很眼熟。都是如下结构。
+用过react + redux的同学，应该会觉得新的Context API很眼熟。都是如下结构。
 
 <Provider store={store}>
     <App />
