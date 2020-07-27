@@ -1,43 +1,36 @@
-import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
+import React, { useContext } from 'react';
+import RouterContext from './RouterContext.js';
+import { pathToRegexp } from 'path-to-regexp';
 
-import pathToReg from 'path-to-regexp';
-import { Consumer } from './context';
+export default function Route(props) {
+  let routerContext = useContext(RouterContext);
+  let { component: RouteComponent, exact = false, path } = props;
+  let pathname = routerContext.location.pathname;
+  let keys = [];
+  let regexp = pathToRegexp(path, keys, {
+    end: exact,
+  });
+  keys = keys.map((item) => item.name);
+  let matched = pathname.match(regexp);
 
-export default class Route extends Component{
-  render() {
-    return <Consumer>
-        { 
-            state => {
-                // 继承自父亲
-                let { path, component: Component, exact = false } = this.props
-                // 来自提供者 provider
-                let pathname = state.location.pathname;
-                // 根据 path 实现一个正则 通过这则匹配
-                let keys = [];
-                let reg = pathToReg(path, keys, { end: exact}); 
-                keys = keys.map( item => item.name ); //keys 匹配参数 [{ name: 'id', prefix: '/', delimiter: '/', optional: false, repeat: false, pattern: '[^\\/]+?' }]
-                        
-                let result = pathname.match(reg); // [path, index, input]
-                        
-                let [url,...values] = result || []; 
-
-                let props = {
-                    location: state.location,
-                    history: state.history,
-                    match: {
-                        params: keys.reduce((obj, current, idx) => {
-                            obj[current] = values[idx];
-                            return obj;
-                        }, {})
-                    }
-                }
-                if (result){
-                    return <Component {...props}></Component>
-                }
-                return null
-            } 
-        }
-    </Consumer>
- }
+  if (matched) {
+    let [url, ...values] = matched;
+    let params = values.reduce((memo, value, index) => {
+      memo[keys[index]] = value;
+      return memo;
+    }, {});
+    let match = {
+      path,
+      url,
+      params,
+      isExact: pathname === url,
+    };
+    let routerValue = {
+      ...routerContext,
+      match,
+    };
+    return <RouteComponent {...routerValue} />;
+  } else {
+    return null;
+  }
 }

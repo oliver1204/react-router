@@ -1,35 +1,22 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Consumer } from './context';
-import pathToRegExp from 'path-to-regexp';
-// Switch的作用就是匹配一个组件
-export default class Switch extends Component {
-  constructor() {
-    super();
+import { useContext } from 'react';
+import RouterContext from './RouterContext.js';
+import { pathToRegexp } from 'path-to-regexp';
+
+export default function Switch(props) {
+  let routerContext = useContext(RouterContext);
+  let children = props.children;
+  let pathname = routerContext.location.pathname;
+
+  children = Array.isArray(children) ? children : [children];
+
+  for (let i = 0; i < children.length; i++) {
+    let child = children[i];
+    let { path = '/', exact = false } = child.props;
+    let reg = pathToRegexp(path, [], { end: exact });
+    let matched = pathname.match(reg);
+
+    if (matched) return child;
   }
-  render() {
-    return (
-        <Consumer>
-            {
-                state => {
-                    let pathname = state.location.pathname;
-                    let children = this.props.children;
-                    let length = children.length
-                    
-                    for(var i = 0; i <length; i++) {
-                        let child = children[i];
-                        let path = child.props.path || ''; // redirect可能没有path属性
-                        let reg = pathToRegExp(path,[],{ end:false });
-                        
-                        // switch匹配成功了
-                        if(reg.test(pathname)) {
-                            return child; // 把匹配到的组件返回即可
-                        }
-                    }
-                    return null;
-                }
-            }
-        </Consumer>
-    )
-  }
+
+  return null;
 }

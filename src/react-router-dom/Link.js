@@ -1,26 +1,10 @@
-import React,{ Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Consumer } from './context';
+import React, { useContext } from 'react';
+import RouterContext from './RouterContext.js';
 
-export default class Link extends Component {
-	constructor() {
-		super()
-	}
-    render() {
-        return (
-            <Consumer>
-                { 
-                    state=>{
-                        return <a onClick={() => {
-                            state.history.push(this.props.to);
-                        }}>{ this.props.children }</a>
-                    }
-                }
-            </Consumer>
-        )
-    }
+export default function Link(props) {
+  let routerContext = useContext(RouterContext);
+
+  return (
+    <a onClick={() => routerContext.history.push(props.to)}>{props.children}</a>
+  );
 }
-
-{/* <Provider store={store}>
-  <App />
-</Provider> */}
